@@ -1,0 +1,18 @@
+#!/bin/sh
+#SBATCH --job-name={{ job_name }}
+#SBATCH --mem-per-cpu={{ per_cpu_mem }}
+#SBATCH --array=1-{{ n_jobs }}
+#SBATCH --ntasks={{ n_tasks | 1 }}
+#SBATCH --cpus-per-task={{ per_task_cpus | 36 }}
+#SBATCH --partition=bigmem
+#SBATCH --time={{ walltime | 24:00:00 }}
+#SBATCH -M genius
+#SBATCH -A lp_climateplants
+
+source $VSC_HOME/.bashrc
+
+conda activate VoCC_R_new
+
+cd $VSC_DATA/voccTargets/
+
+CMQ_AUTH={{ auth }} R --no-save --no-restore -e 'clustermq:::worker("{{ master }}")'

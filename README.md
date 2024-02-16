@@ -1,2 +1,2 @@
-# vocc_targets_wice
-targets for wICE cluster
+# vocc_targets
+use targets to calculate vocc
