@@ -17,11 +17,11 @@ options(
 tar_option_set(
   resources = tar_resources(
     clustermq = tar_resources_clustermq(template = list(
-      job_name = "auto-velocity",
-      per_cpu_mem = "20000mb",
+      job_name = "auto-aspects",
+      per_cpu_mem = "5000mb",
       n_tasks = 1,
       per_task_cpus = 36,
-      walltime = "24:00:00"
+      walltime = "48:00:00"
     ))
   )
 )
