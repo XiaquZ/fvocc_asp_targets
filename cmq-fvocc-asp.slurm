@@ -7,6 +7,6 @@ source $VSC_HOME/.bashrc
 
 conda activate VoCC_R_new
 
-cd $VSC_DATA/vocc_targets/
+cd $VSC_DATA/fvocc_asp_targets/
 
 Rscript targets_run_cmq.R

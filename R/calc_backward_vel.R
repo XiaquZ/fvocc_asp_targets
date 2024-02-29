@@ -1,4 +1,4 @@
-calc_backward_vel <- function(tile_name,
+calc_asp_vel <- function(tile_name,
                              tolerance,
                              max_distance,
                              present_files, # must contain
@@ -19,33 +19,37 @@ calc_backward_vel <- function(tile_name,
   ## Set tolerace for matching analogues
 
   ## apply over all of the pre_values in lis
-  analogue_distances <- lapply(pre_values, function(pre_value) {
+  analogue_aspects <- lapply(pre_values, function(pre_value) {
     ## Filter only values in pre_round that are equal to pre_value
-    pre_filt <- mask(pre_round,
+    pre_filt <- terra::mask(pre_round,
       pre_round == pre_value,
       maskvalues = F
     )
 
     ## Filter future analogues which are within tolerance of pre_value
-    fut_filt <- mask(fut_round,
+    fut_filt <- terra::mask(fut_round,
       fut_round >= pre_value - tolerance & fut_round <= pre_value + tolerance,
       maskvalues = F
     )
     # Calculate distance to closest analogue
     fut_distance <- distance(fut_filt)
+    names(fut_distance) <- "distance"
+    # Calculate the aspects to the closest analogue
+    fut_aspect <- terrain(fut_distance, v="aspect", neighbors = 8, unit = "degrees")
+    names(fut_aspect) <- "aspect"
+    
     ## Crop to tile to exclude buffer around tile
-    analogue_distance <- mask(crop(fut_distance, pre_filt), pre_filt)
-
-    ## all_analogue_distance <- sum(all_analogue_distance, analogue_distance, na.rm = T)
+    analogue_asp <- mask(crop(fut_aspect, pre_filt), pre_filt)
   })
 
-  ds <- rast(analogue_distances) # List of all analogue rasts to one rast
-  distance <- app(ds, fun = sum, na.rm = T) # Sum all layers of ds rast to make complete map
-  names(distance) <- "distance"
+    analogue_aspects <- rast(analogue_aspects)
+    asps <- app(analogue_aspects, fun = sum, na.rm = T) # Sum all layers of ds rast to make complete map
+    names(asps) <- "aspects"
+  # Save results as rasters.
+    forward_asp_file <- paste0("/lustre1/scratch/348/vsc34871/output/VoCC/CentralEU/aspect/fvocc_asp_", tile_name, ".tif")
+    forward_asp <- round(asps,1)
+    print(forward_asp)
+    writeRaster(forward_asp, forward_asp_file, overwrite = T) # write
 
-  forward_vel_file <- paste0("/lustre1/scratch/348/vsc34871/output/VoCC/EastEU/fvocc_", tile_name, ".tif")
-  forward_vel <- mask(distance, distance <= max_distance, maskvalues = F) / 75 # Calculate velocity
-  writeRaster(forward_vel, forward_vel_file, overwrite = T) # write
-
-  return(forward_vel_file) # Return filename
+    return(forward_asp_file) # Return filename
 }
