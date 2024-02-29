@@ -43,8 +43,8 @@ tar_plan(
     )[[1]][1:2], collapse = "_"), "_"),
     pattern = map(present_files),
   ),
-  tar_target(forward_vels,
-    calc_forward_vel(
+  tar_target(forward_asps,
+    calc_asp_vel(
       tile_names,
       tolerance,
       max_distance,
