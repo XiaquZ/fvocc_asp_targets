@@ -1,5 +1,5 @@
 #! /bin/bash
-#SBATCH --job-name=cmq-climate-velocity
+#SBATCH --job-name=cmq-aspect
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem-per-cpu=7000mb
 #SBATCH --time=26:35:00
 
