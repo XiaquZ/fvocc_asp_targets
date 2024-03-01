@@ -18,7 +18,7 @@ tar_option_set(
   resources = tar_resources(
     clustermq = tar_resources_clustermq(template = list(
       job_name = "auto-aspects",
-      per_cpu_mem = "6700mb",
+      per_cpu_mem = "7000mb",
       n_tasks = 1,
       per_task_cpus = 36,
       walltime = "15:00:00"
