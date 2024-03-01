@@ -4,7 +4,7 @@
 #SBATCH --array=1-{{ n_jobs }}
 #SBATCH --ntasks={{ n_tasks | 1 }}
 #SBATCH --cpus-per-task={{ per_task_cpus | 36 }}
-#SBATCH --time={{ walltime | 48:00:00 }}
+#SBATCH --time={{ walltime | 16:00:00 }}
 #SBATCH -M wice
 #SBATCH -A lp_climateplants
 

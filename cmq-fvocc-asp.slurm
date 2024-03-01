@@ -1,7 +1,7 @@
 #! /bin/bash
 #SBATCH --job-name=cmq-aspect
 #SBATCH --ntasks=1 --cpus-per-task=10 --mem-per-cpu=7000mb
-#SBATCH --time=49:35:00
+#SBATCH --time=16:35:00
 
 source $VSC_HOME/.bashrc
 
